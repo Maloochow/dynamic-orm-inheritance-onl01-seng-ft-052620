@@ -27,6 +27,7 @@ class InteractiveRecord
     end
   end
 
+
   def save
     sql = "INSERT INTO #{table_name_for_insert} (#{col_names_for_insert}) VALUES (#{values_for_insert})"
     DB[:conn].execute(sql)
@@ -55,6 +56,18 @@ def self.find_by_name(name)
   songs = []
   song_info.each {|hash| songs << self.new(hash)} unless song_info == []
   songs
+end
+
+def self.all
+  sql = "SELECT * FROM #{self.table_name}"
+  array = DB[:conn].execute(sql)
+  all = []
+  array.each do |hash|
+    all << self.new(hash)
+    puts "#{self.col_names_for_insert}"
+    puts "#{self.values_for_insert}" 
+  end unless array == []
+  all
 end
 
 end

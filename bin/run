@@ -12,6 +12,7 @@ song2 = Song.new(name: "Hello", album: "35")
 song.save
 song2.save
 
-puts Song.find_by_name("Hello")
+puts Song.column_names.join(", ")
+Song.all.each {|song_o| puts song_o.}
 
 # DB[:conn].execute("SELECT * FROM songs")
