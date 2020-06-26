@@ -13,6 +13,7 @@ class InteractiveRecord
     sql = "pragma table_info('#{table_name}')"
 
     table_info = DB[:conn].execute(sql)
+    # binding.pry
     column_names = []
     table_info.each do |row|
       column_names << row["name"]
@@ -22,7 +23,7 @@ class InteractiveRecord
 
   def initialize(options={})
     options.each do |property, value|
-      self.send("#{property}=", value)
+      self.send("#{property}=", value) unless property.class == Integer
     end
   end
 
@@ -50,7 +51,10 @@ class InteractiveRecord
 
 def self.find_by_name(name)
   sql = "SELECT * FROM #{self.table_name} WHERE name = ?"
-  DB[:conn].execute(sql, name)
+  song_info = DB[:conn].execute(sql, name)
+  songs = []
+  song_info.each {|hash| songs << self.new(hash)} unless song_info == []
+  songs
 end
 
 end
