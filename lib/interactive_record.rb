@@ -62,10 +62,12 @@ def self.all
   sql = "SELECT * FROM #{self.table_name}"
   array = DB[:conn].execute(sql)
   all = []
+  puts "#{self.column_names.join(" | ")}"
   array.each do |hash|
-    all << self.new(hash)
-    puts "#{self.col_names_for_insert}"
-    puts "#{self.values_for_insert}" 
+    song = self.new(hash)
+    all << song
+    puts "------------------"
+    puts "#{song.values_for_insert}" 
   end unless array == []
   all
 end
